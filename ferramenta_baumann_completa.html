@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Classificação Baumann - Completa</title>
+  <style>
+    body {font-family: Arial, sans-serif; background:#f7f7f3; margin:0; padding:20px;}
+    h1,h2{color:#2f3e2f}
+    .card{background:#fff; padding:16px; border-radius:12px; margin-bottom:16px; box-shadow:0 4px 10px rgba(0,0,0,0.05);}
+    .question{margin-bottom:12px;}
+    .result{background:#eef3e6; padding:12px; border-radius:10px; margin-top:20px;}
+    button{padding:10px 14px; border:none; border-radius:8px; background:#6b7f52; color:#fff; cursor:pointer;}
+  </style>
+</head>
+<body>
+
+<h1>Ferramenta Completa - Classificação de Pele (Baumann)</h1>
+
+<div class="card">
+<h2>Exemplo Simplificado (teste de funcionamento)</h2>
+
+<div class="question">
+<p>1. Sua pele fica brilhante ao longo do dia?</p>
+<label><input type="radio" name="q1" value="1"> Nunca</label><br>
+<label><input type="radio" name="q1" value="2"> Às vezes</label><br>
+<label><input type="radio" name="q1" value="3"> Frequentemente</label><br>
+<label><input type="radio" name="q1" value="4"> Sempre</label>
+</div>
+
+<div class="question">
+<p>2. Sua pele costuma ficar irritada com produtos?</p>
+<label><input type="radio" name="q2" value="1"> Nunca</label><br>
+<label><input type="radio" name="q2" value="2"> Às vezes</label><br>
+<label><input type="radio" name="q2" value="3"> Frequentemente</label><br>
+<label><input type="radio" name="q2" value="4"> Sempre</label>
+</div>
+
+<button onclick="calcular()">Calcular classificação</button>
+
+<div id="resultado" class="result" style="display:none;"></div>
+
+</div>
+
+<script>
+function calcular(){
+  let q1 = document.querySelector('input[name="q1"]:checked');
+  let q2 = document.querySelector('input[name="q2"]:checked');
+
+  if(!q1 || !q2){
+    alert("Responda todas as perguntas.");
+    return;
+  }
+
+  let oleosidade = parseFloat(q1.value);
+  let sensibilidade = parseFloat(q2.value);
+
+  let tipo = "";
+
+  tipo += oleosidade >= 3 ? "O" : "D";
+  tipo += sensibilidade >= 3 ? "S" : "R";
+  tipo += "P"; 
+  tipo += "T";
+
+  document.getElementById("resultado").style.display = "block";
+  document.getElementById("resultado").innerHTML = "<strong>Tipo de pele:</strong> " + tipo + "<br><br>Interpretação inicial automática.";
+}
+</script>
+
+</body>
+</html>
