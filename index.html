@@ -1,71 +1,587 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Classificação Baumann - Completa</title>
-  <style>
-    body {font-family: Arial, sans-serif; background:#f7f7f3; margin:0; padding:20px;}
-    h1,h2{color:#2f3e2f}
-    .card{background:#fff; padding:16px; border-radius:12px; margin-bottom:16px; box-shadow:0 4px 10px rgba(0,0,0,0.05);}
-    .question{margin-bottom:12px;}
-    .result{background:#eef3e6; padding:12px; border-radius:10px; margin-top:20px;}
-    button{padding:10px 14px; border:none; border-radius:8px; background:#6b7f52; color:#fff; cursor:pointer;}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ferramenta Baumann - Classificação Automática</title>
+<style>
+:root {
+  --bg:#f6f5f0; --card:#ffffff; --text:#243024; --muted:#6a7468; --line:#dde3d8;
+  --accent:#6b7f52; --accent-soft:#eef3e6; --shadow:0 8px 24px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+.hero,.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.hero{padding:24px;margin-bottom:18px}
+.card{padding:20px;margin-bottom:16px}
+h1{margin:0 0 8px;font-size:30px}
+h2{margin:0 0 12px;font-size:22px}
+p{margin:0 0 10px}
+.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:1.4fr .8fr;gap:18px;align-items:start}
+.sticky{position:sticky;top:18px}
+.question{padding:16px 0;border-top:1px solid var(--line)}
+.question:first-of-type{border-top:none}
+.qtitle{font-weight:700;margin-bottom:10px}
+.options{display:grid;gap:8px}
+.option{display:block;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;cursor:pointer}
+.option:hover{background:#fafbf8}
+.option input{margin-right:8px}
+button{border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+.primary{background:var(--accent);color:#fff}
+.secondary{background:#fff;border:1px solid var(--line);color:var(--text)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.kpi{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.badge{display:inline-block;padding:10px 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;margin-bottom:10px}
+.alert{display:none;color:#a11b1b;font-weight:700;margin-top:10px}
+.textarea{width:100%;min-height:170px;border:1px solid var(--line);border-radius:14px;padding:12px;font:inherit}
+.small{font-size:14px}
+ul{padding-left:18px}
+@media (max-width: 900px) {
+ .grid{grid-template-columns:1fr}
+ .sticky{position:static}
+}
+</style>
 </head>
 <body>
+<div class="container">
+  <div class="hero">
+    <h1>Ferramenta Baumann</h1>
+    <p>Classificação automática do tipo de pele com base no questionário de Baumann, com leitura clínica inicial para uso das alunas.</p>
+    <p class="muted small">Pontuação utilizada: a = 1 | b = 2 | c = 3 | d = 4 | e = 2,5.</p>
+  </div>
 
-<h1>Ferramenta Completa - Classificação de Pele (Baumann)</h1>
+  <div class="grid">
+    <div><section class="card"><h2>Hidratação da pele – Oleosa (O) x Seca (D)</h2>
+<div class="question"><p class="qtitle">1. Após lavar o rosto e não aplicar nenhum produto, depois de 2 a 3 horas, como é a aparência geral da testa e das bochechas?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_1" value="a"><span><strong>A)</strong> muito áspera, descamativa, sem brilho e sem “vida”</span></label>
+<label class="option"><input type="radio" name="hydration_1" value="b"><span><strong>B)</strong> sensação de tensão (estiramento)</span></label>
+<label class="option"><input type="radio" name="hydration_1" value="c"><span><strong>C)</strong> bem hidratada, sem brilho excessivo</span></label>
+<label class="option"><input type="radio" name="hydration_1" value="d"><span><strong>D)</strong> muito brilhante, refletindo a luz</span></label>
+</div></div>
+<div class="question"><p class="qtitle">2. Na foto, sua pele aparece brilhante?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_2" value="a"><span><strong>A)</strong> nunca ou você nunca notou brilho</span></label>
+<label class="option"><input type="radio" name="hydration_2" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="hydration_2" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="hydration_2" value="d"><span><strong>D)</strong> sempre</span></label>
+</div></div>
+<div class="question"><p class="qtitle">3. Duas ou três horas após aplicação de base cosmética, sem pó, qual a aparência da maquiagem?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_3" value="a"><span><strong>A)</strong> descamativa, encrostada</span></label>
+<label class="option"><input type="radio" name="hydration_3" value="b"><span><strong>B)</strong> lisa, macia</span></label>
+<label class="option"><input type="radio" name="hydration_3" value="c"><span><strong>C)</strong> brilhante</span></label>
+<label class="option"><input type="radio" name="hydration_3" value="d"><span><strong>D)</strong> muito brilhante</span></label>
+<label class="option"><input type="radio" name="hydration_3" value="e"><span><strong>E)</strong> eu nunca uso base</span></label>
+</div></div>
+<div class="question"><p class="qtitle">4. Em ambiente com baixa umidade, se você não usar hidratante nem filtro solar, sua pele do rosto:</p><div class="options">
+<label class="option"><input type="radio" name="hydration_4" value="a"><span><strong>A)</strong> fica muito seca e craquelada</span></label>
+<label class="option"><input type="radio" name="hydration_4" value="b"><span><strong>B)</strong> fica com sensação de tensão</span></label>
+<label class="option"><input type="radio" name="hydration_4" value="c"><span><strong>C)</strong> fica normal</span></label>
+<label class="option"><input type="radio" name="hydration_4" value="d"><span><strong>D)</strong> fica brilhante, ou eu nunca sinto que preciso de hidratante</span></label>
+<label class="option"><input type="radio" name="hydration_4" value="e"><span><strong>E)</strong> não sei</span></label>
+</div></div>
+<div class="question"><p class="qtitle">5. Olhando em espelho de aumento, quantos óstios abertos e dilatados você tem?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_5" value="a"><span><strong>A)</strong> nenhum</span></label>
+<label class="option"><input type="radio" name="hydration_5" value="b"><span><strong>B)</strong> apenas um pouco na zona T</span></label>
+<label class="option"><input type="radio" name="hydration_5" value="c"><span><strong>C)</strong> muitos</span></label>
+<label class="option"><input type="radio" name="hydration_5" value="d"><span><strong>D)</strong> uma quantidade exagerada</span></label>
+<label class="option"><input type="radio" name="hydration_5" value="e"><span><strong>E)</strong> não sei</span></label>
+</div></div>
+<div class="question"><p class="qtitle">6. Na sua opinião, você classificaria sua pele do rosto como:</p><div class="options">
+<label class="option"><input type="radio" name="hydration_6" value="a"><span><strong>A)</strong> seca</span></label>
+<label class="option"><input type="radio" name="hydration_6" value="b"><span><strong>B)</strong> normal</span></label>
+<label class="option"><input type="radio" name="hydration_6" value="c"><span><strong>C)</strong> mista</span></label>
+<label class="option"><input type="radio" name="hydration_6" value="d"><span><strong>D)</strong> oleosa</span></label>
+</div></div>
+<div class="question"><p class="qtitle">7. Quando você usa sabonete comum que desengordura profundamente, como fica a pele do seu rosto?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_7" value="a"><span><strong>A)</strong> seca ou craquelada</span></label>
+<label class="option"><input type="radio" name="hydration_7" value="b"><span><strong>B)</strong> levemente ressecada, mas não craquelada</span></label>
+<label class="option"><input type="radio" name="hydration_7" value="c"><span><strong>C)</strong> normal</span></label>
+<label class="option"><input type="radio" name="hydration_7" value="d"><span><strong>D)</strong> oleosa</span></label>
+<label class="option"><input type="radio" name="hydration_7" value="e"><span><strong>E)</strong> eu nunca uso sabonete desse tipo</span></label>
+</div></div>
+<div class="question"><p class="qtitle">8. Se você não usar hidratante, sua pele fica com sensação de tensão?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_8" value="a"><span><strong>A)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="hydration_8" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="hydration_8" value="c"><span><strong>C)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="hydration_8" value="d"><span><strong>D)</strong> nunca</span></label>
+</div></div>
+<div class="question"><p class="qtitle">9. Você tem óstios obstruídos com cravos escuros ou brancos?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_9" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="hydration_9" value="b"><span><strong>B)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="hydration_9" value="c"><span><strong>C)</strong> algumas vezes</span></label>
+<label class="option"><input type="radio" name="hydration_9" value="d"><span><strong>D)</strong> sempre</span></label>
+</div></div>
+<div class="question"><p class="qtitle">10. Sua pele é oleosa na zona T?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_10" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="hydration_10" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="hydration_10" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="hydration_10" value="d"><span><strong>D)</strong> sempre</span></label>
+</div></div>
+<div class="question"><p class="qtitle">11. Duas ou três horas após aplicar hidratante, como ficam suas bochechas?</p><div class="options">
+<label class="option"><input type="radio" name="hydration_11" value="a"><span><strong>A)</strong> muito áspera, descamativa, sem brilho e sem “vida”</span></label>
+<label class="option"><input type="radio" name="hydration_11" value="b"><span><strong>B)</strong> lisa, macia</span></label>
+<label class="option"><input type="radio" name="hydration_11" value="c"><span><strong>C)</strong> bem hidratada, sem brilho excessivo</span></label>
+<label class="option"><input type="radio" name="hydration_11" value="d"><span><strong>D)</strong> brilhante e lisa, ou eu nunca uso hidratante</span></label>
+</div></div>
+</section>
+<section class="card"><h2>Sensibilidade da pele – Sensível (S) x Resistente (R)</h2>
+<div class="question"><p class="qtitle">1. Você apresenta pápulas vermelhas na sua pele?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_1" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_1" value="b"><span><strong>B)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="sensitivity_1" value="c"><span><strong>C)</strong> pelo menos uma vez por mês</span></label>
+<label class="option"><input type="radio" name="sensitivity_1" value="d"><span><strong>D)</strong> pelo menos uma vez por semana</span></label>
+</div></div>
+<div class="question"><p class="qtitle">2. Produtos para cuidado com a pele causam irritação, coceira, vermelhidão, ardência ou “alergia”?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_2" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_2" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_2" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_2" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_2" value="e"><span><strong>E)</strong> eu não uso produtos no rosto</span></label>
+</div></div>
+<div class="question"><p class="qtitle">3. Você já teve diagnóstico de acne ou rosácea?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_3" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="sensitivity_3" value="b"><span><strong>B)</strong> pessoas já falaram que eu tenho</span></label>
+<label class="option"><input type="radio" name="sensitivity_3" value="c"><span><strong>C)</strong> sim</span></label>
+<label class="option"><input type="radio" name="sensitivity_3" value="d"><span><strong>D)</strong> sim, um caso grave</span></label>
+<label class="option"><input type="radio" name="sensitivity_3" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">4. Você tem “alergia” ao usar bijuterias ou joias que não sejam ouro 18 quilates?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_4" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_4" value="b"><span><strong>B)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="sensitivity_4" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_4" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_4" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">5. Filtros solares fazem sua pele coçar, queimar, pinicar, ficar vermelha ou irritada?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_5" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_5" value="b"><span><strong>B)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="sensitivity_5" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_5" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_5" value="e"><span><strong>E)</strong> eu nunca uso filtro solar</span></label>
+</div></div>
+<div class="question"><p class="qtitle">6. Você já teve diagnóstico de dermatite atópica, eczema ou dermatite de contato?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_6" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="sensitivity_6" value="b"><span><strong>B)</strong> as pessoas dizem que eu tenho isso</span></label>
+<label class="option"><input type="radio" name="sensitivity_6" value="c"><span><strong>C)</strong> sim</span></label>
+<label class="option"><input type="radio" name="sensitivity_6" value="d"><span><strong>D)</strong> sim, um caso grave</span></label>
+<label class="option"><input type="radio" name="sensitivity_6" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">7. Com que frequência você tem inflamação ou “alergia” no local onde usa anel?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_7" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_7" value="b"><span><strong>B)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="sensitivity_7" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_7" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_7" value="e"><span><strong>E)</strong> eu nunca uso anel</span></label>
+</div></div>
+<div class="question"><p class="qtitle">8. Banho com sabonete que faz espuma, óleo para massagem ou loções hidratantes causam coceira, ressecamento ou reação?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_8" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_8" value="b"><span><strong>B)</strong> raramente</span></label>
+<label class="option"><input type="radio" name="sensitivity_8" value="c"><span><strong>C)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_8" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_8" value="e"><span><strong>E)</strong> eu nunca uso produtos desse tipo</span></label>
+</div></div>
+<div class="question"><p class="qtitle">9. Você pode usar sabonete comum de hotel no rosto e corpo sem problemas?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_9" value="a"><span><strong>A)</strong> sim</span></label>
+<label class="option"><input type="radio" name="sensitivity_9" value="b"><span><strong>B)</strong> na maioria das vezes não tenho problemas</span></label>
+<label class="option"><input type="radio" name="sensitivity_9" value="c"><span><strong>C)</strong> não, minha pele coça, fica vermelha e irritada</span></label>
+<label class="option"><input type="radio" name="sensitivity_9" value="d"><span><strong>D)</strong> não posso usar porque já tive vários problemas</span></label>
+<label class="option"><input type="radio" name="sensitivity_9" value="e"><span><strong>E)</strong> sempre levo o meu sabonete</span></label>
+</div></div>
+<div class="question"><p class="qtitle">10. Alguém na sua família tem dermatite atópica, eczema, asma e/ou alergias?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_10" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="sensitivity_10" value="b"><span><strong>B)</strong> fiquei sabendo de uma pessoa</span></label>
+<label class="option"><input type="radio" name="sensitivity_10" value="c"><span><strong>C)</strong> algumas pessoas na família</span></label>
+<label class="option"><input type="radio" name="sensitivity_10" value="d"><span><strong>D)</strong> muitas pessoas da família têm</span></label>
+<label class="option"><input type="radio" name="sensitivity_10" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">11. O que acontece se você usar sabão e/ou amaciante perfumado para lavar roupas?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_11" value="a"><span><strong>A)</strong> tudo bem com a minha pele</span></label>
+<label class="option"><input type="radio" name="sensitivity_11" value="b"><span><strong>B)</strong> minha pele fica levemente ressecada</span></label>
+<label class="option"><input type="radio" name="sensitivity_11" value="c"><span><strong>C)</strong> minha pele coça</span></label>
+<label class="option"><input type="radio" name="sensitivity_11" value="d"><span><strong>D)</strong> minha pele coça, fica irritada e com pápulas</span></label>
+<label class="option"><input type="radio" name="sensitivity_11" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">12. Com que frequência sua pele ou pescoço ficam vermelhos após exercício moderado, estresse ou fortes emoções?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_12" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_12" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_12" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_12" value="d"><span><strong>D)</strong> sempre</span></label>
+</div></div>
+<div class="question"><p class="qtitle">13. Com que frequência você fica vermelha após consumir bebidas alcoólicas?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_13" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_13" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_13" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_13" value="d"><span><strong>D)</strong> sempre, ou eu não bebo por causa desse problema</span></label>
+<label class="option"><input type="radio" name="sensitivity_13" value="e"><span><strong>E)</strong> eu nunca bebo álcool</span></label>
+</div></div>
+<div class="question"><p class="qtitle">14. Com que frequência você fica vermelha após comer alimentos apimentados ou muito quentes?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_14" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_14" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_14" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_14" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_14" value="e"><span><strong>E)</strong> eu nunca como alimentos apimentados</span></label>
+</div></div>
+<div class="question"><p class="qtitle">15. Quantos vasinhos vermelhos ou azulados você tem no rosto, incluindo o nariz?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_15" value="a"><span><strong>A)</strong> nenhum</span></label>
+<label class="option"><input type="radio" name="sensitivity_15" value="b"><span><strong>B)</strong> poucos</span></label>
+<label class="option"><input type="radio" name="sensitivity_15" value="c"><span><strong>C)</strong> alguns</span></label>
+<label class="option"><input type="radio" name="sensitivity_15" value="d"><span><strong>D)</strong> muitos</span></label>
+</div></div>
+<div class="question"><p class="qtitle">16. Seu rosto aparece vermelho nas fotografias?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_16" value="a"><span><strong>A)</strong> nunca, ou nunca notei</span></label>
+<label class="option"><input type="radio" name="sensitivity_16" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_16" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_16" value="d"><span><strong>D)</strong> sempre</span></label>
+</div></div>
+<div class="question"><p class="qtitle">17. As pessoas perguntam se você ficou no sol mesmo quando não ficou, por estar muito vermelha?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_17" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_17" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_17" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_17" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_17" value="e"><span><strong>E)</strong> estou sempre bronzeado ou queimado de sol</span></label>
+</div></div>
+<div class="question"><p class="qtitle">18. Ao usar maquiagem, filtro solar ou produtos para a pele você fica com vermelhidão, coceira ou irritação?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_18" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="sensitivity_18" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="sensitivity_18" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="sensitivity_18" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="sensitivity_18" value="e"><span><strong>E)</strong> eu não uso esses produtos</span></label>
+</div></div>
+<div class="question"><p class="qtitle">19. Seu dermatologista já deu diagnóstico de acne, rosácea, dermatite de contato ou eczema?</p><div class="options">
+<label class="option"><input type="radio" name="sensitivity_19" value="a"><span><strong>A)</strong> sim</span></label>
+<label class="option"><input type="radio" name="sensitivity_19" value="b"><span><strong>B)</strong> não</span></label>
+</div></div>
+</section>
+<section class="card"><h2>Pigmentação – Pigmentada (P) x Não pigmentada (N)</h2>
+<div class="question"><p class="qtitle">1. Se você tiver uma espinha, pápula ou pelo encravado, fica uma mancha marrom ou ponto preto no local?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_1" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="pigmentation_1" value="b"><span><strong>B)</strong> às vezes</span></label>
+<label class="option"><input type="radio" name="pigmentation_1" value="c"><span><strong>C)</strong> frequentemente</span></label>
+<label class="option"><input type="radio" name="pigmentation_1" value="d"><span><strong>D)</strong> sempre</span></label>
+<label class="option"><input type="radio" name="pigmentation_1" value="e"><span><strong>E)</strong> nunca tive pápulas, espinhas ou pelo encravado</span></label>
+</div></div>
+<div class="question"><p class="qtitle">2. Se você sofre um corte ou ferimento, quanto tempo o local fica com uma marca marrom?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_2" value="a"><span><strong>A)</strong> eu nunca fico com marcas marrons</span></label>
+<label class="option"><input type="radio" name="pigmentation_2" value="b"><span><strong>B)</strong> uma semana</span></label>
+<label class="option"><input type="radio" name="pigmentation_2" value="c"><span><strong>C)</strong> algumas semanas</span></label>
+<label class="option"><input type="radio" name="pigmentation_2" value="d"><span><strong>D)</strong> meses</span></label>
+</div></div>
+<div class="question"><p class="qtitle">3. Quantas manchas escuras você teve no rosto quando engravidou, tomou anticoncepcional ou fez reposição hormonal?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_3" value="a"><span><strong>A)</strong> nenhuma</span></label>
+<label class="option"><input type="radio" name="pigmentation_3" value="b"><span><strong>B)</strong> uma</span></label>
+<label class="option"><input type="radio" name="pigmentation_3" value="c"><span><strong>C)</strong> poucas</span></label>
+<label class="option"><input type="radio" name="pigmentation_3" value="d"><span><strong>D)</strong> muitas</span></label>
+<label class="option"><input type="radio" name="pigmentation_3" value="e"><span><strong>E)</strong> essa questão não se aplica</span></label>
+</div></div>
+<div class="question"><p class="qtitle">4. Você tem ou já teve manchas escuras no buço ou bochechas?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_4" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="pigmentation_4" value="b"><span><strong>B)</strong> não tenho certeza</span></label>
+<label class="option"><input type="radio" name="pigmentation_4" value="c"><span><strong>C)</strong> sim, levemente perceptíveis</span></label>
+<label class="option"><input type="radio" name="pigmentation_4" value="d"><span><strong>D)</strong> sim, muito perceptíveis</span></label>
+</div></div>
+<div class="question"><p class="qtitle">5. Suas manchas escuras do rosto ficam piores quando você toma sol?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_5" value="a"><span><strong>A)</strong> não tenho manchas escuras</span></label>
+<label class="option"><input type="radio" name="pigmentation_5" value="b"><span><strong>B)</strong> não tenho certeza</span></label>
+<label class="option"><input type="radio" name="pigmentation_5" value="c"><span><strong>C)</strong> pioram um pouco</span></label>
+<label class="option"><input type="radio" name="pigmentation_5" value="d"><span><strong>D)</strong> pioram muito</span></label>
+<label class="option"><input type="radio" name="pigmentation_5" value="e"><span><strong>E)</strong> uso filtro solar todos os dias e nunca pego sol</span></label>
+</div></div>
+<div class="question"><p class="qtitle">6. Você já teve diagnóstico de melasma, sardas ou melanoses solares no rosto?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_6" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="pigmentation_6" value="b"><span><strong>B)</strong> uma vez, mas saíram</span></label>
+<label class="option"><input type="radio" name="pigmentation_6" value="c"><span><strong>C)</strong> sim</span></label>
+<label class="option"><input type="radio" name="pigmentation_6" value="d"><span><strong>D)</strong> sim, um caso grave</span></label>
+<label class="option"><input type="radio" name="pigmentation_6" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">7. Você tem ou já teve manchas marrons no rosto, colo, costas ou braços?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_7" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="pigmentation_7" value="b"><span><strong>B)</strong> sim, poucas</span></label>
+<label class="option"><input type="radio" name="pigmentation_7" value="c"><span><strong>C)</strong> sim, muitas</span></label>
+<label class="option"><input type="radio" name="pigmentation_7" value="d"><span><strong>D)</strong> sim, inúmeras</span></label>
+</div></div>
+<div class="question"><p class="qtitle">8. Quando sua pele é exposta ao sol pela primeira vez após muitos meses:</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_8" value="a"><span><strong>A)</strong> ela só queima</span></label>
+<label class="option"><input type="radio" name="pigmentation_8" value="b"><span><strong>B)</strong> queima e depois fica levemente bronzeada</span></label>
+<label class="option"><input type="radio" name="pigmentation_8" value="c"><span><strong>C)</strong> fica bronzeada</span></label>
+<label class="option"><input type="radio" name="pigmentation_8" value="d"><span><strong>D)</strong> minha pele já é escura, por isso é difícil avaliar</span></label>
+</div></div>
+<div class="question"><p class="qtitle">9. O que acontece se você se expõe ao sol por vários dias consecutivos?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_9" value="a"><span><strong>A)</strong> somente fico vermelho</span></label>
+<label class="option"><input type="radio" name="pigmentation_9" value="b"><span><strong>B)</strong> minha pele fica discretamente morena</span></label>
+<label class="option"><input type="radio" name="pigmentation_9" value="c"><span><strong>C)</strong> minha pele fica muito morena</span></label>
+<label class="option"><input type="radio" name="pigmentation_9" value="d"><span><strong>D)</strong> minha pele já é morena, por isso é difícil avaliar</span></label>
+<label class="option"><input type="radio" name="pigmentation_9" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">10. Quando você se expõe ao sol aparecem sardas?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_10" value="a"><span><strong>A)</strong> não, eu nunca tenho sardas</span></label>
+<label class="option"><input type="radio" name="pigmentation_10" value="b"><span><strong>B)</strong> aparecem poucas sardas por ano</span></label>
+<label class="option"><input type="radio" name="pigmentation_10" value="c"><span><strong>C)</strong> aparecem sardas frequentemente</span></label>
+<label class="option"><input type="radio" name="pigmentation_10" value="d"><span><strong>D)</strong> minha pele é morena escura, por isso é difícil avaliar</span></label>
+<label class="option"><input type="radio" name="pigmentation_10" value="e"><span><strong>E)</strong> nunca me exponho ao sol</span></label>
+</div></div>
+<div class="question"><p class="qtitle">11. Algum dos seus pais tem sardas?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_11" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="pigmentation_11" value="b"><span><strong>B)</strong> um pouco no rosto</span></label>
+<label class="option"><input type="radio" name="pigmentation_11" value="c"><span><strong>C)</strong> muitas no rosto</span></label>
+<label class="option"><input type="radio" name="pigmentation_11" value="d"><span><strong>D)</strong> muitas no rosto, colo, pescoço e braços</span></label>
+<label class="option"><input type="radio" name="pigmentation_11" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">12. Qual a cor natural do seu cabelo?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_12" value="a"><span><strong>A)</strong> loiro</span></label>
+<label class="option"><input type="radio" name="pigmentation_12" value="b"><span><strong>B)</strong> castanho</span></label>
+<label class="option"><input type="radio" name="pigmentation_12" value="c"><span><strong>C)</strong> preto</span></label>
+<label class="option"><input type="radio" name="pigmentation_12" value="d"><span><strong>D)</strong> ruivo</span></label>
+</div></div>
+<div class="question"><p class="qtitle">13. Você já teve melanoma ou alguém da sua família já teve?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_13" value="a"><span><strong>A)</strong> não</span></label>
+<label class="option"><input type="radio" name="pigmentation_13" value="b"><span><strong>B)</strong> uma pessoa na família</span></label>
+<label class="option"><input type="radio" name="pigmentation_13" value="c"><span><strong>C)</strong> mais de uma pessoa na família</span></label>
+<label class="option"><input type="radio" name="pigmentation_13" value="d"><span><strong>D)</strong> eu tive melanoma</span></label>
+<label class="option"><input type="radio" name="pigmentation_13" value="e"><span><strong>E)</strong> não tenho certeza</span></label>
+</div></div>
+<div class="question"><p class="qtitle">14. Você tem manchas escuras na pele nas áreas expostas ao sol?</p><div class="options">
+<label class="option"><input type="radio" name="pigmentation_14" value="a"><span><strong>A)</strong> sim</span></label>
+<label class="option"><input type="radio" name="pigmentation_14" value="b"><span><strong>B)</strong> não</span></label>
+</div></div>
+</section>
+<section class="card"><h2>Tendência a rugas – Enrugada (W) x Firme (T)</h2>
+<div class="question"><p class="qtitle">1. Você tem rugas no rosto?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_1" value="a"><span><strong>A)</strong> não, mesmo quando faço expressões</span></label>
+<label class="option"><input type="radio" name="wrinkles_1" value="b"><span><strong>B)</strong> somente ao sorrir, franzir a testa ou fazer expressões</span></label>
+<label class="option"><input type="radio" name="wrinkles_1" value="c"><span><strong>C)</strong> sim, tanto ao fazer expressões quanto sem movimento</span></label>
+<label class="option"><input type="radio" name="wrinkles_1" value="d"><span><strong>D)</strong> as rugas estão presentes mesmo sem expressões</span></label>
+</div></div>
+<div class="question"><p class="qtitle">2. Quantos anos aparenta sua mãe?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_2" value="a"><span><strong>A)</strong> 5 a 10 anos mais jovem que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_2" value="b"><span><strong>B)</strong> exatamente a idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_2" value="c"><span><strong>C)</strong> 5 anos mais velha que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_2" value="d"><span><strong>D)</strong> mais de 5 anos mais velha que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_2" value="e"><span><strong>E)</strong> não aplicável</span></label>
+</div></div>
+<div class="question"><p class="qtitle">3. Quantos anos aparenta seu pai?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_3" value="a"><span><strong>A)</strong> 5 a 10 anos mais jovem que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_3" value="b"><span><strong>B)</strong> exatamente a idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_3" value="c"><span><strong>C)</strong> 5 anos mais velho que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_3" value="d"><span><strong>D)</strong> mais de 5 anos mais velho que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_3" value="e"><span><strong>E)</strong> não aplicável</span></label>
+</div></div>
+<div class="question"><p class="qtitle">4. Quantos anos aparenta sua avó materna?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_4" value="a"><span><strong>A)</strong> 5 a 10 anos mais jovem que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_4" value="b"><span><strong>B)</strong> exatamente a idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_4" value="c"><span><strong>C)</strong> 5 anos mais velha que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_4" value="d"><span><strong>D)</strong> mais de 5 anos mais velha que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_4" value="e"><span><strong>E)</strong> não aplicável</span></label>
+</div></div>
+<div class="question"><p class="qtitle">5. Quantos anos aparenta seu avô materno?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_5" value="a"><span><strong>A)</strong> 5 a 10 anos mais jovem que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_5" value="b"><span><strong>B)</strong> exatamente a idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_5" value="c"><span><strong>C)</strong> 5 anos mais velho que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_5" value="d"><span><strong>D)</strong> mais de 5 anos mais velho que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_5" value="e"><span><strong>E)</strong> não aplicável</span></label>
+</div></div>
+<div class="question"><p class="qtitle">6. Quantos anos aparenta sua avó paterna?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_6" value="a"><span><strong>A)</strong> 5 a 10 anos mais jovem que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_6" value="b"><span><strong>B)</strong> exatamente a idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_6" value="c"><span><strong>C)</strong> 5 anos mais velha que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_6" value="d"><span><strong>D)</strong> mais de 5 anos mais velha que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_6" value="e"><span><strong>E)</strong> não aplicável</span></label>
+</div></div>
+<div class="question"><p class="qtitle">7. Quantos anos aparenta seu avô paterno?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_7" value="a"><span><strong>A)</strong> 5 a 10 anos mais jovem que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_7" value="b"><span><strong>B)</strong> exatamente a idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_7" value="c"><span><strong>C)</strong> 5 anos mais velho que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_7" value="d"><span><strong>D)</strong> mais de 5 anos mais velho que a idade real</span></label>
+<label class="option"><input type="radio" name="wrinkles_7" value="e"><span><strong>E)</strong> não aplicável</span></label>
+</div></div>
+<div class="question"><p class="qtitle">8. Alguma vez na vida você bronzeou sua pele cerca de duas semanas por ano ou mais?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_8" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="wrinkles_8" value="b"><span><strong>B)</strong> 1 a 5 anos</span></label>
+<label class="option"><input type="radio" name="wrinkles_8" value="c"><span><strong>C)</strong> 5 a 10 anos</span></label>
+<label class="option"><input type="radio" name="wrinkles_8" value="d"><span><strong>D)</strong> mais de 10 anos</span></label>
+</div></div>
+<div class="question"><p class="qtitle">9. Alguma vez na sua vida você já se bronzeou duas semanas por ano ou mais? Qual a frequência?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_9" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="wrinkles_9" value="b"><span><strong>B)</strong> 1 a 5 anos</span></label>
+<label class="option"><input type="radio" name="wrinkles_9" value="c"><span><strong>C)</strong> 5 a 10 anos</span></label>
+<label class="option"><input type="radio" name="wrinkles_9" value="d"><span><strong>D)</strong> mais de 10 anos</span></label>
+</div></div>
+<div class="question"><p class="qtitle">10. Baseando-se nos locais onde viveu, quanta exposição solar você teve na vida?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_10" value="a"><span><strong>A)</strong> pouca</span></label>
+<label class="option"><input type="radio" name="wrinkles_10" value="b"><span><strong>B)</strong> alguma</span></label>
+<label class="option"><input type="radio" name="wrinkles_10" value="c"><span><strong>C)</strong> moderada</span></label>
+<label class="option"><input type="radio" name="wrinkles_10" value="d"><span><strong>D)</strong> muita</span></label>
+</div></div>
+<div class="question"><p class="qtitle">11. Qual idade você aparenta?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_11" value="a"><span><strong>A)</strong> 1 a 5 anos mais nova que a sua idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_11" value="b"><span><strong>B)</strong> exatamente sua idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_11" value="c"><span><strong>C)</strong> 1 a 5 anos a mais que sua idade</span></label>
+<label class="option"><input type="radio" name="wrinkles_11" value="d"><span><strong>D)</strong> mais de 5 anos a mais que sua idade</span></label>
+</div></div>
+<div class="question"><p class="qtitle">12. Durante os últimos 5 anos, quanto você se bronzeou em atividades ao ar livre?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_12" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="wrinkles_12" value="b"><span><strong>B)</strong> uma vez por mês</span></label>
+<label class="option"><input type="radio" name="wrinkles_12" value="c"><span><strong>C)</strong> uma vez por semana</span></label>
+<label class="option"><input type="radio" name="wrinkles_12" value="d"><span><strong>D)</strong> diariamente</span></label>
+</div></div>
+<div class="question"><p class="qtitle">13. Com que frequência você fez bronzeamento artificial?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_13" value="a"><span><strong>A)</strong> nunca</span></label>
+<label class="option"><input type="radio" name="wrinkles_13" value="b"><span><strong>B)</strong> 1 a 5 vezes</span></label>
+<label class="option"><input type="radio" name="wrinkles_13" value="c"><span><strong>C)</strong> 5 a 10 vezes</span></label>
+<label class="option"><input type="radio" name="wrinkles_13" value="d"><span><strong>D)</strong> muitas vezes</span></label>
+</div></div>
+<div class="question"><p class="qtitle">14. Durante a sua vida, quantos cigarros você já fumou?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_14" value="a"><span><strong>A)</strong> nenhum</span></label>
+<label class="option"><input type="radio" name="wrinkles_14" value="b"><span><strong>B)</strong> poucos maços</span></label>
+<label class="option"><input type="radio" name="wrinkles_14" value="c"><span><strong>C)</strong> muito ou vários maços</span></label>
+<label class="option"><input type="radio" name="wrinkles_14" value="d"><span><strong>D)</strong> fumo todos os dias</span></label>
+<label class="option"><input type="radio" name="wrinkles_14" value="e"><span><strong>E)</strong> nunca fumei, mas sempre estive exposto passivamente ao cigarro</span></label>
+</div></div>
+<div class="question"><p class="qtitle">15. Descreva a poluição do ar no local onde você vive:</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_15" value="a"><span><strong>A)</strong> o ar é limpo e fresco</span></label>
+<label class="option"><input type="radio" name="wrinkles_15" value="b"><span><strong>B)</strong> na maior parte do ano moro em local com ar limpo</span></label>
+<label class="option"><input type="radio" name="wrinkles_15" value="c"><span><strong>C)</strong> o ar é um pouco poluído</span></label>
+<label class="option"><input type="radio" name="wrinkles_15" value="d"><span><strong>D)</strong> o ar é muito poluído</span></label>
+</div></div>
+<div class="question"><p class="qtitle">16. Considere quanto você já utilizou produtos contendo vitamina A, ácido retinoico ou derivados:</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_16" value="a"><span><strong>A)</strong> muitos anos</span></label>
+<label class="option"><input type="radio" name="wrinkles_16" value="b"><span><strong>B)</strong> ocasionalmente</span></label>
+<label class="option"><input type="radio" name="wrinkles_16" value="c"><span><strong>C)</strong> uma vez</span></label>
+<label class="option"><input type="radio" name="wrinkles_16" value="d"><span><strong>D)</strong> nunca</span></label>
+</div></div>
+<div class="question"><p class="qtitle">17. Com que frequência você come frutas, legumes e vegetais?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_17" value="a"><span><strong>A)</strong> todas as refeições</span></label>
+<label class="option"><input type="radio" name="wrinkles_17" value="b"><span><strong>B)</strong> uma vez por dia</span></label>
+<label class="option"><input type="radio" name="wrinkles_17" value="c"><span><strong>C)</strong> ocasionalmente</span></label>
+<label class="option"><input type="radio" name="wrinkles_17" value="d"><span><strong>D)</strong> nunca</span></label>
+</div></div>
+<div class="question"><p class="qtitle">18. Durante sua vida, qual porcentagem da sua dieta consistiu em frutas, legumes e vegetais?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_18" value="a"><span><strong>A)</strong> 75-100%</span></label>
+<label class="option"><input type="radio" name="wrinkles_18" value="b"><span><strong>B)</strong> 25-75%</span></label>
+<label class="option"><input type="radio" name="wrinkles_18" value="c"><span><strong>C)</strong> 10-25%</span></label>
+<label class="option"><input type="radio" name="wrinkles_18" value="d"><span><strong>D)</strong> 0-25%</span></label>
+</div></div>
+<div class="question"><p class="qtitle">19. Qual a cor natural da sua pele?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_19" value="a"><span><strong>A)</strong> negra</span></label>
+<label class="option"><input type="radio" name="wrinkles_19" value="b"><span><strong>B)</strong> média</span></label>
+<label class="option"><input type="radio" name="wrinkles_19" value="c"><span><strong>C)</strong> clara</span></label>
+<label class="option"><input type="radio" name="wrinkles_19" value="d"><span><strong>D)</strong> muito clara</span></label>
+</div></div>
+<div class="question"><p class="qtitle">20. Qual a sua etnia?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_20" value="a"><span><strong>A)</strong> africano ou descendente de africanos, caribenho, negro</span></label>
+<label class="option"><input type="radio" name="wrinkles_20" value="b"><span><strong>B)</strong> asiático, índio, mediterrâneo, árabe, indiano</span></label>
+<label class="option"><input type="radio" name="wrinkles_20" value="c"><span><strong>C)</strong> latino americano, hispânico</span></label>
+<label class="option"><input type="radio" name="wrinkles_20" value="d"><span><strong>D)</strong> caucasiano, branco</span></label>
+</div></div>
+<div class="question"><p class="qtitle">21. Você tem mais de 65 anos?</p><div class="options">
+<label class="option"><input type="radio" name="wrinkles_21" value="a"><span><strong>A)</strong> sim</span></label>
+<label class="option"><input type="radio" name="wrinkles_21" value="b"><span><strong>B)</strong> não</span></label>
+</div></div>
+</section></div>
 
-<div class="card">
-<h2>Exemplo Simplificado (teste de funcionamento)</h2>
-
-<div class="question">
-<p>1. Sua pele fica brilhante ao longo do dia?</p>
-<label><input type="radio" name="q1" value="1"> Nunca</label><br>
-<label><input type="radio" name="q1" value="2"> Às vezes</label><br>
-<label><input type="radio" name="q1" value="3"> Frequentemente</label><br>
-<label><input type="radio" name="q1" value="4"> Sempre</label>
-</div>
-
-<div class="question">
-<p>2. Sua pele costuma ficar irritada com produtos?</p>
-<label><input type="radio" name="q2" value="1"> Nunca</label><br>
-<label><input type="radio" name="q2" value="2"> Às vezes</label><br>
-<label><input type="radio" name="q2" value="3"> Frequentemente</label><br>
-<label><input type="radio" name="q2" value="4"> Sempre</label>
-</div>
-
-<button onclick="calcular()">Calcular classificação</button>
-
-<div id="resultado" class="result" style="display:none;"></div>
-
+    <div class="sticky">
+      <div class="card">
+        <h2>Resultado automático</h2>
+        <p class="muted">Preencha todas as respostas e clique em calcular.</p>
+        <div class="actions">
+          <button class="primary" onclick="calculate()">Calcular classificação</button>
+          <button class="secondary" onclick="resetForm()">Limpar</button>
+        </div>
+        <div id="alert" class="alert"></div>
+        <div id="resultArea" style="display:none;margin-top:16px;">
+          <div id="finalType" class="badge"></div>
+          <div class="kpis">
+            <div class="kpi"><strong>O/D</strong><div id="kpi1"></div></div>
+            <div class="kpi"><strong>S/R</strong><div id="kpi2"></div></div>
+            <div class="kpi"><strong>P/N</strong><div id="kpi3"></div></div>
+            <div class="kpi"><strong>W/T</strong><div id="kpi4"></div></div>
+          </div>
+          <h3>Leitura clínica</h3>
+          <div id="clinical"></div>
+          <h3>Direcionamento inicial</h3>
+          <ul id="conduct"></ul>
+          <h3>Texto base para discussão clínica</h3>
+          <textarea id="summary" class="textarea"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-function calcular(){
-  let q1 = document.querySelector('input[name="q1"]:checked');
-  let q2 = document.querySelector('input[name="q2"]:checked');
+const optionValue = {a:1,b:2,c:3,d:4,e:2.5};
+const sections = [{"id": "hydration", "title": "Hidratação da pele – Oleosa (O) x Seca (D)"}, {"id": "sensitivity", "title": "Sensibilidade da pele – Sensível (S) x Resistente (R)"}, {"id": "pigmentation", "title": "Pigmentação – Pigmentada (P) x Não pigmentada (N)"}, {"id": "wrinkles", "title": "Tendência a rugas – Enrugada (W) x Firme (T)"}];
+const classifiers = {
+  hydration: function(score) { return (score >= 27) ? {letter:'O', label:(score >= 34 ? 'pele muito oleosa' : 'pele levemente oleosa')} : {letter:'D', label:(score >= 17 ? 'pele levemente seca' : 'pele seca')}; },
+  sensitivity: function(score) { return (score >= 30) ? {letter:'S', label:(score >= 34 ? 'pele muito sensível' : 'pele sensível')} : {letter:'R', label:(score >= 25 ? 'pele com boa resistência' : 'pele muito resistente')}; },
+  pigmentation: function(score) { return (score >= 29) ? {letter:'P', label:'pele pigmentada'} : {letter:'N', label:'pele não pigmentada'}; },
+  wrinkles: function(score) { return (score >= 41) ? {letter:'W', label:'pele enrugada'} : {letter:'T', label:'pele firme'}; }
+};
+const sectionCounts = {"hydration": 11, "sensitivity": 19, "pigmentation": 14, "wrinkles": 21};
+const interpretation = {"O": "Oleosa: maior produção sebácea, tendência a brilho, poros visíveis e maior chance de comedões/acne.", "D": "Seca: menor produção sebácea, sensação de repuxamento, possível descamação e maior desconforto de barreira.", "S": "Sensível: maior tendência a irritação, ardor, vermelhidão, inflamação e menor tolerância a estímulos.", "R": "Resistente: pele com melhor tolerância cutânea, embora ainda exija individualização clínica.", "P": "Pigmentada: maior propensão a hiperpigmentação e manchas, inclusive pós-inflamatórias.", "N": "Não pigmentada: menor tendência a pigmentação persistente, mantendo necessidade de fotoproteção.", "W": "Enrugada: maior tendência a fotoenvelhecimento, linhas e rugas, pedindo estratégia preventiva e reparadora.", "T": "Firme: menor tendência atual a rugas, com foco em prevenção e manutenção."};
+const conduct = {"O": "Controlar oleosidade sem agredir. Evitar excesso de limpeza ou secativos que provoquem rebote.", "D": "Priorizar hidratação e reparo de barreira antes de estratégias mais agressivas.", "S": "Começar estabilizando a barreira e controlando inflamação; introduzir ativos de forma gradual.", "R": "Pode tolerar melhor ativos e procedimentos, mas ainda precisa de avaliação individual.", "P": "Redobrar cuidado com inflamação e fotoproteção; atenção ao risco de PIH e melasma.", "N": "Manter prevenção pigmentária, mesmo sem grande tendência a manchas.", "W": "Associar fotoproteção rigorosa, estímulo de colágeno e revisão de fatores de envelhecimento extrínseco.", "T": "Focar em manutenção, prevenção e proteção precoce."};
 
-  if(!q1 || !q2){
-    alert("Responda todas as perguntas.");
+function sumSection(id) {
+  let total = 0, answered = 0;
+  for (let i=1; i<=sectionCounts[id]; i++) {
+    const selected = document.querySelector(`input[name="${id}_${i}"]:checked`);
+    if (selected) {
+      total += optionValue[selected.value];
+      answered += 1;
+    }
+  }
+  return {total, answered, totalQuestions: sectionCounts[id]};
+}
+
+function calculate() {
+  const ids = ["hydration","sensitivity","pigmentation","wrinkles"];
+  const names = {"hydration":"Hidratação","sensitivity":"Sensibilidade","pigmentation":"Pigmentação","wrinkles":"Tendência a rugas"};
+  const alertBox = document.getElementById("alert");
+  alertBox.style.display = "none";
+  alertBox.innerText = "";
+
+  const data = ids.map(id => {
+    const scoreData = sumSection(id);
+    return {id, ...scoreData};
+  });
+
+  const incomplete = data.filter(x => x.answered !== x.totalQuestions);
+  if (incomplete.length) {
+    alertBox.style.display = "block";
+    alertBox.innerText = "Existem perguntas sem resposta. Preencha todo o questionário para classificar corretamente.";
     return;
   }
 
-  let oleosidade = parseFloat(q1.value);
-  let sensibilidade = parseFloat(q2.value);
+  const classified = data.map(x => {
+    const result = classifiers[x.id](x.total);
+    return {...x, ...result};
+  });
 
-  let tipo = "";
+  const finalType = classified.map(x => x.letter).join("");
+  document.getElementById("resultArea").style.display = "block";
+  document.getElementById("finalType").innerText = "Classificação final: " + finalType;
 
-  tipo += oleosidade >= 3 ? "O" : "D";
-  tipo += sensibilidade >= 3 ? "S" : "R";
-  tipo += "P"; 
-  tipo += "T";
+  document.getElementById("kpi1").innerText = `${classified[0].total} pontos → ${classified[0].letter} (${classified[0].label})`;
+  document.getElementById("kpi2").innerText = `${classified[1].total} pontos → ${classified[1].letter} (${classified[1].label})`;
+  document.getElementById("kpi3").innerText = `${classified[2].total} pontos → ${classified[2].letter} (${classified[2].label})`;
+  document.getElementById("kpi4").innerText = `${classified[3].total} pontos → ${classified[3].letter} (${classified[3].label})`;
 
-  document.getElementById("resultado").style.display = "block";
-  document.getElementById("resultado").innerHTML = "<strong>Tipo de pele:</strong> " + tipo + "<br><br>Interpretação inicial automática.";
+  const letters = finalType.split("");
+  document.getElementById("clinical").innerHTML = letters.map(l => `<p><strong>${l}</strong>: ${interpretation[l]}</p>`).join("");
+  document.getElementById("conduct").innerHTML = letters.map(l => `<li><strong>${l}</strong>: ${conduct[l]}</li>`).join("");
+
+  const summary = `Tipo de pele classificado: ${finalType}. Leitura clínica inicial: ${letters.map(l => interpretation[l]).join(" ")} Direcionamento inicial: ${letters.map(l => conduct[l]).join(" ")}`;
+  document.getElementById("summary").value = summary;
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function resetForm() {
+  document.querySelectorAll('input[type="radio"]:checked').forEach(el => el.checked = false);
+  document.getElementById("resultArea").style.display = "none";
+  document.getElementById("alert").style.display = "none";
 }
 </script>
-
 </body>
 </html>
